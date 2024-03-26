@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,6 +33,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,6 +58,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     TelaLogin()
                     TelaCadastro()
+                    TelaHome()
                 }
             }
         }
@@ -117,7 +121,7 @@ fun TelaLogin() {
                 shape = RoundedCornerShape(16.dp),
                 value = "teste@email.com",
                 label = {
-                        Text(text = "E-mail")
+                    Text(text = "E-mail")
                 },
                 onValueChange = {},
                 modifier = Modifier
@@ -441,6 +445,182 @@ fun TelaCadastro() {
     }
 }
 
+@Composable
+fun TelaHome() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFFF6F6F6))
+    ) {
+        Surface(
+            modifier = Modifier
+                .height(200.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.background),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+            Column (
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .padding(16.dp)
+            ){
+                Column (
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ){
+                    Card(
+                        shape = CircleShape
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.profilefoto),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .height(60.dp)
+                                .width(60.dp)
+                        )
+                    }
+                    Text(
+                        text = "Susanna Hoffs",
+                        color = Color.White
+                    )
+                }
+                Column(
+
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.locationvector),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .height(16.dp)
+                                .width(16.dp)
+                        )
+                        Text(
+                            text = "You're in Paris",
+                            color = Color.White
+                        )
+                    }
+                    Text(
+                        text = "MyTrips",
+                        color = Color.White,
+                        fontWeight = FontWeight.Black,
+                        fontSize = 30.sp
+                    )
+                }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
+        ) {
+            Text(text = "Categories")
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow{
+                items(3){
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFCF06F0)),
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(120.dp)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .fillMaxSize()
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.mountainvector),
+                                contentDescription = "",
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .height(40.dp)
+                                    .width(60.dp)
+                            )
+                            Text(
+                                text = "Mountain",
+                                color = Color.White
+                                )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(120.dp)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .fillMaxSize()
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.skivector),
+                                contentDescription = "",
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .height(40.dp)
+                                    .width(60.dp)
+                            )
+                            Text(
+                                text = "Snow",
+                                color = Color.White
+                                )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(120.dp)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .fillMaxSize()
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.beachvector),
+                                contentDescription = "",
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .height(40.dp)
+                                    .width(60.dp)
+                            )
+                            Text(
+                                text = "Beach",
+                                color = Color.White
+                                )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            TextField(
+                value = "",
+                onValueChange = {},
+                placeholder = { Text(text = "Search your destiny")},
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TelaLoginPreview() {
@@ -454,5 +634,13 @@ fun TelaLoginPreview() {
 fun TelaCadastroPreview() {
     MyTripsTheme {
         TelaCadastro()
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun TelaHomePreview() {
+    MyTripsTheme {
+        TelaHome()
     }
 }
