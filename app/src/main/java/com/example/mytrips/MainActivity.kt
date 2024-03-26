@@ -28,12 +28,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -445,6 +448,7 @@ fun TelaCadastro() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaHome() {
     Column(
@@ -613,10 +617,23 @@ fun TelaHome() {
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
                 value = "",
+                colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
                 onValueChange = {},
                 placeholder = { Text(text = "Search your destiny")},
+                trailingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.lupavector),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(20.dp)
+                    )
+                },
+                shape = RoundedCornerShape(size = 18.dp),
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.height(20.dp))
+
         }
     }
 }
