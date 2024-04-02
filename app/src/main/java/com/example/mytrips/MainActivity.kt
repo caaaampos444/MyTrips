@@ -1,6 +1,7 @@
 package com.example.mytrips
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +27,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
@@ -38,11 +41,16 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,6 +78,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TelaLogin() {
+
+    var emailState = remember{
+        mutableStateOf("")
+    }
+
+    var senhaState = remember {
+        mutableStateOf("")
+    }
+
+    val contexto = LocalContext.current
+
     Column (
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()
@@ -121,12 +140,18 @@ fun TelaLogin() {
                             .width(24.dp)
                     )
                 },
-                shape = RoundedCornerShape(16.dp),
-                value = "teste@email.com",
                 label = {
                     Text(text = "E-mail")
                 },
-                onValueChange = {},
+                shape = RoundedCornerShape(16.dp),
+                value = emailState.value,
+                onValueChange = {
+                    Log.i(
+                        "EMAIL",
+                        "VALOR: $it"
+                    )
+                    emailState.value=it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -147,11 +172,17 @@ fun TelaLogin() {
                     )
                 },
                 shape = RoundedCornerShape(16.dp),
-                value = "*************",
+                value = senhaState.value,
                 label = {
                     Text(text = "Password")
                 },
-                onValueChange = {},
+                onValueChange = {
+                    Log.i(
+                        "SENHA",
+                        "VALOR: $it"
+                    )
+                    senhaState.value=it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -230,6 +261,27 @@ fun TelaLogin() {
 
 @Composable
 fun TelaCadastro() {
+    var usernameState = remember{
+        mutableStateOf("")
+    }
+
+    var telefoneState = remember {
+        mutableStateOf("")
+    }
+
+    var emailState = remember {
+        mutableStateOf("")
+    }
+
+    var senhaState = remember {
+        mutableStateOf("")
+    }
+
+    var checkboxState = remember {
+        mutableStateOf(false)
+    }
+
+    val contexto = LocalContext.current
     Column (
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()
@@ -302,11 +354,17 @@ fun TelaCadastro() {
                         )
                     },
                     shape = RoundedCornerShape(16.dp),
-                    value = "Susanna Hoffs",
+                    value = usernameState.value,
+                    onValueChange = {
+                        Log.i(
+                            "USERNAME",
+                            "VALOR: $it"
+                        )
+                        usernameState.value=it
+                    },
                     label = {
                         Text(text = "Username")
                     },
-                    onValueChange = {},
                     modifier = Modifier
                         .fillMaxWidth()
                 )
@@ -326,11 +384,17 @@ fun TelaCadastro() {
                         )
                     },
                     shape = RoundedCornerShape(16.dp),
-                    value = "99999-0987",
+                    value = telefoneState.value,
+                    onValueChange = {
+                        Log.i(
+                            "TELEFONE",
+                            "VALOR: $it"
+                        )
+                        telefoneState.value=it
+                    },
                     label = {
                         Text(text = "Phone")
                     },
-                    onValueChange = {},
                     modifier = Modifier
                         .fillMaxWidth()
                 )
@@ -350,11 +414,17 @@ fun TelaCadastro() {
                         )
                     },
                     shape = RoundedCornerShape(16.dp),
-                    value = "susanna@email.com",
+                    value = emailState.value,
+                    onValueChange = {
+                        Log.i(
+                            "EMAIL",
+                            "VALOR: $it"
+                        )
+                        emailState.value=it
+                    },
                     label = {
                         Text(text = "E-mail")
                     },
-                    onValueChange = {},
                     modifier = Modifier
                         .fillMaxWidth()
                 )
@@ -374,11 +444,17 @@ fun TelaCadastro() {
                         )
                     },
                     shape = RoundedCornerShape(16.dp),
-                    value = "*************",
+                    value = senhaState.value,
+                    onValueChange = {
+                        Log.i(
+                            "SENHA",
+                            "VALOR: $it"
+                        )
+                        senhaState.value=it
+                    },
                     label = {
                         Text(text = "Password")
                     },
-                    onValueChange = {},
                     modifier = Modifier
                         .fillMaxWidth()
                 )
@@ -386,8 +462,10 @@ fun TelaCadastro() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
-                        checked = false,
-                        onCheckedChange = {},
+                        checked = checkboxState.value,
+                        onCheckedChange = {
+                            checkboxState.value=it
+                        },
                         colors = CheckboxDefaults.colors(
                             uncheckedColor = Color(0xFFCF06F0),
                             checkedColor = Color(0xFFCF06F0)
@@ -529,6 +607,7 @@ fun TelaHome() {
             LazyRow{
                 items(3){
                     Card(
+                        elevation = CardDefaults.cardElevation(10.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFCF06F0)),
                         modifier = Modifier
                             .height(80.dp)
@@ -557,6 +636,7 @@ fun TelaHome() {
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Card(
+                        elevation = CardDefaults.cardElevation(10.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
                         modifier = Modifier
                             .height(80.dp)
@@ -585,6 +665,7 @@ fun TelaHome() {
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Card(
+                        elevation = CardDefaults.cardElevation(10.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
                         modifier = Modifier
                             .height(80.dp)
@@ -633,7 +714,106 @@ fun TelaHome() {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(20.dp))
-
+            Text(text = "Past Trips")
+            Spacer(modifier = Modifier.height(10.dp))
+            LazyColumn {
+                items(3){
+                    Card(
+                        elevation = CardDefaults.cardElevation(6.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(4.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.backgroundlondon),
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .height(100.dp)
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(8.dp))
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(
+                                text = "London, 2019",
+                                color = Color(0xFFCF06F0)
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(
+                                text = "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.",
+                                color = Color(0xFFA09C9C),
+                                fontSize = 10.sp
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Row(
+                                horizontalArrangement = Arrangement.End,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "18 Feb - 21 Feb",
+                                    color = Color(0xFFCF06F0),
+                                    fontSize = 10.sp
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Card(
+                        elevation = CardDefaults.cardElevation(6.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(4.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.backgroundporto),
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .height(100.dp)
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(8.dp))
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(
+                                text = "Porto, 2022",
+                                color = Color(0xFFCF06F0)
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(
+                                text = "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula's major urban areas.",
+                                color = Color(0xFFA09C9C),
+                                fontSize = 10.sp
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Row(
+                                horizontalArrangement = Arrangement.End,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "15 May - 22 May",
+                                    color = Color(0xFFCF06F0),
+                                    fontSize = 10.sp
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(14.dp))
+                }
+            }
         }
     }
 }
