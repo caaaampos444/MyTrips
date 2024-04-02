@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -23,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,6 +33,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -165,6 +169,7 @@ fun TelaCadastro(controleDeNavegacao: NavHostController) {
                             focusedBorderColor = Color(0xFFCF06F0),
                             unfocusedBorderColor = Color(0xFFCF06F0)
                         ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         leadingIcon = {
                             Image(
                                 painter = painterResource(id = R.drawable.iconphone),
@@ -206,6 +211,7 @@ fun TelaCadastro(controleDeNavegacao: NavHostController) {
                                     .width(20.dp)
                             )
                         },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         shape = RoundedCornerShape(16.dp),
                         value = emailState.value,
                         onValueChange = {
@@ -237,6 +243,7 @@ fun TelaCadastro(controleDeNavegacao: NavHostController) {
                                     .width(20.dp)
                             )
                         },
+                        visualTransformation = PasswordVisualTransformation(),
                         shape = RoundedCornerShape(16.dp),
                         value = senhaState.value,
                         onValueChange = {
