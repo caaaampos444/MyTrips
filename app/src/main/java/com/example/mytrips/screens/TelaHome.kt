@@ -36,11 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mytrips.R
+import com.example.mytrips.repository.ViagemRepository
 import com.example.mytrips.ui.theme.MyTripsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaHome(controleDeNavegacao: NavHostController) {
+
+    val viagens = ViagemRepository().listarTodasAsViagens()
 
     var pesquisaState = remember {
         mutableStateOf("")
@@ -237,7 +240,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                 Text(text = "Past Trips")
                 Spacer(modifier = Modifier.height(10.dp))
                 LazyColumn {
-                    items(3){
+                    items(viagens){
                         Card(
                             elevation = CardDefaults.cardElevation(6.dp),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -251,7 +254,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                     .padding(4.dp)
                             ) {
                                 Image(
-                                    painter = painterResource(id = R.drawable.backgroundlondon),
+                                    painter = if(it.imagem=null) painterResource(id = R.drawable.noimage) else it.imagem!!,
                                     contentDescription = "",
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
@@ -261,12 +264,12 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = "London, 2019",
+                                    text = "${it.destino}",
                                     color = Color(0xFFCF06F0)
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.",
+                                    text = "${it.desricao}",
                                     color = Color(0xFFA09C9C),
                                     fontSize = 10.sp
                                 )
@@ -278,53 +281,6 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                 ) {
                                     Text(
                                         text = "18 Feb - 21 Feb",
-                                        color = Color(0xFFCF06F0),
-                                        fontSize = 10.sp
-                                    )
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(14.dp))
-                        Card(
-                            elevation = CardDefaults.cardElevation(6.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(4.dp)
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.backgroundporto),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .height(100.dp)
-                                        .fillMaxWidth()
-                                        .clip(RoundedCornerShape(8.dp))
-                                )
-                                Spacer(modifier = Modifier.height(5.dp))
-                                Text(
-                                    text = "Porto, 2022",
-                                    color = Color(0xFFCF06F0)
-                                )
-                                Spacer(modifier = Modifier.height(5.dp))
-                                Text(
-                                    text = "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula's major urban areas.",
-                                    color = Color(0xFFA09C9C),
-                                    fontSize = 10.sp
-                                )
-                                Spacer(modifier = Modifier.height(5.dp))
-                                Row(
-                                    horizontalArrangement = Arrangement.End,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = "15 May - 22 May",
                                         color = Color(0xFFCF06F0),
                                         fontSize = 10.sp
                                     )
