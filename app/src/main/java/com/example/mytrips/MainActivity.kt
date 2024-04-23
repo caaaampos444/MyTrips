@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = controleDeNavegacao,
-                        startDestination = "login",
+                        startDestination = "home",
                     ) {
                         composable(route = "login") { TelaLogin(controleDeNavegacao) }
                         composable(route = "cadastro") { TelaCadastro(controleDeNavegacao) }

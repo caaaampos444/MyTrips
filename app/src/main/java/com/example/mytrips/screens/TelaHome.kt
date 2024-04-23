@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
@@ -31,11 +33,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mytrips.R
+import com.example.mytrips.reduzirData
+import com.example.mytrips.repository.CategoriaRepository
 import com.example.mytrips.repository.ViagemRepository
 import com.example.mytrips.ui.theme.MyTripsTheme
 
@@ -44,6 +51,8 @@ import com.example.mytrips.ui.theme.MyTripsTheme
 fun TelaHome(controleDeNavegacao: NavHostController) {
 
     val viagens = ViagemRepository().listarTodasAsViagens()
+
+    val categorias = CategoriaRepository().listarTodasAsCategorias()
 
     var pesquisaState = remember {
         mutableStateOf("")
@@ -126,10 +135,10 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                 Text(text = "Categories")
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyRow{
-                    items(3){
+                    items(categorias){
                         Card(
                             elevation = CardDefaults.cardElevation(10.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFCF06F0)),
+                            colors = if (it.habilitado==true) CardDefaults.cardColors(containerColor = Color(0xFFCF06F0)) else CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
                             modifier = Modifier
                                 .height(80.dp)
                                 .width(120.dp)
@@ -142,7 +151,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                     .fillMaxSize()
                             ) {
                                 Image(
-                                    painter = painterResource(id = R.drawable.mountainvector),
+                                    painter = if(it.imagem==null) painterResource(id = R.drawable.noimage) else it.imagem!!,
                                     contentDescription = "",
                                     contentScale = ContentScale.Fit,
                                     modifier = Modifier
@@ -150,65 +159,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                         .width(60.dp)
                                 )
                                 Text(
-                                    text = "Mountain",
-                                    color = Color.White
-                                )
-                            }
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Card(
-                            elevation = CardDefaults.cardElevation(10.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
-                            modifier = Modifier
-                                .height(80.dp)
-                                .width(120.dp)
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxSize()
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.skivector),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier
-                                        .height(40.dp)
-                                        .width(60.dp)
-                                )
-                                Text(
-                                    text = "Snow",
-                                    color = Color.White
-                                )
-                            }
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Card(
-                            elevation = CardDefaults.cardElevation(10.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
-                            modifier = Modifier
-                                .height(80.dp)
-                                .width(120.dp)
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxSize()
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.beachvector),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier
-                                        .height(40.dp)
-                                        .width(60.dp)
-                                )
-                                Text(
-                                    text = "Beach",
+                                    text = it.nome,
                                     color = Color.White
                                 )
                             }
@@ -246,7 +197,6 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                             colors = CardDefaults.cardColors(containerColor = Color.White),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(200.dp)
                         ) {
                             Column(
                                 modifier = Modifier
@@ -254,7 +204,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                     .padding(4.dp)
                             ) {
                                 Image(
-                                    painter = if(it.imagem=null) painterResource(id = R.drawable.noimage) else it.imagem!!,
+                                    painter = if(it.imagem==null) painterResource(id = R.drawable.noimage) else it.imagem!!,
                                     contentDescription = "",
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
@@ -264,14 +214,15 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = "${it.destino}",
+                                    text = "${it.destino}, ${it.dataPartida.year}",
                                     color = Color(0xFFCF06F0)
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = "${it.desricao}",
+                                    text = "${it.descricao}",
                                     color = Color(0xFFA09C9C),
-                                    fontSize = 10.sp
+                                    fontSize = 10.sp,
+                                    style = TextStyle(lineHeight = 1.5.em)
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Row(
@@ -280,7 +231,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                         .fillMaxWidth()
                                 ) {
                                     Text(
-                                        text = "18 Feb - 21 Feb",
+                                        text = "${reduzirData(it.dataChegada)} - ${reduzirData(it.dataPartida)}",
                                         color = Color(0xFFCF06F0),
                                         fontSize = 10.sp
                                     )
