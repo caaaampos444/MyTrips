@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,7 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mytrips.R
+import com.example.mytrips.repository.UsuarioRepository
 import com.example.mytrips.ui.theme.MyTripsTheme
+import kotlin.reflect.typeOf
 
 @Composable
 fun TelaLogin(controleDeNavegacao: NavHostController) {
@@ -57,6 +60,8 @@ fun TelaLogin(controleDeNavegacao: NavHostController) {
     var mensagemErroState = remember {
         mutableStateOf("")
     }
+
+    val ur = UsuarioRepository(LocalContext.current)
 
     MyTripsTheme {
         Column (
@@ -174,11 +179,11 @@ fun TelaLogin(controleDeNavegacao: NavHostController) {
                 ){
                     Button(
                         onClick = {
-                                  if (emailState.value=="admin"&&senhaState.value=="admin"){
-                                      controleDeNavegacao.navigate("home")
+                                  if (emailState.value!=""&&senhaState.value!=""){
+                                      //Log.i("RETORNO DO BANCO",ur.buscarUsuarioLogado(emailState.value, senhaState.value))
                                   }else{
                                       erroState.value=true
-                                      mensagemErroState.value="Usuário ou senha incorretos!"
+                                      mensagemErroState.value="Campos requeridos não foram preenchidos"
                                   }
                         },
                         shape = RoundedCornerShape(16.dp),

@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mytrips.screens.TelaCadastro
 import com.example.mytrips.screens.TelaHome
 import com.example.mytrips.screens.TelaLogin
+import com.example.mytrips.screens.TelaUsuarios
 import com.example.mytrips.ui.theme.MyTripsTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,11 +33,12 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = controleDeNavegacao,
-                        startDestination = "home",
+                        startDestination = "login",
                     ) {
                         composable(route = "login") { TelaLogin(controleDeNavegacao) }
                         composable(route = "cadastro") { TelaCadastro(controleDeNavegacao) }
                         composable(route = "home") { TelaHome(controleDeNavegacao) }
+                        composable(route = "usuarios") { TelaUsuarios(controleDeNavegacao)}
                     }
                 }
             }

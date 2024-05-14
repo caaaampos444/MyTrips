@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,7 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mytrips.R
+import com.example.mytrips.model.Usuario
+import com.example.mytrips.repository.UsuarioRepository
 import com.example.mytrips.ui.theme.MyTripsTheme
+import kotlin.math.log
 
 @Composable
 fun TelaCadastro(controleDeNavegacao: NavHostController) {
@@ -70,6 +74,8 @@ fun TelaCadastro(controleDeNavegacao: NavHostController) {
     var mensagemErroState = remember {
         mutableStateOf("")
     }
+
+    val ur = UsuarioRepository(LocalContext.current)
 
     MyTripsTheme {
         Column(
@@ -281,7 +287,16 @@ fun TelaCadastro(controleDeNavegacao: NavHostController) {
                                 emailState.value != "" &&
                                 senhaState.value != ""
                             ){
-                                controleDeNavegacao.navigate("login")
+                                val usuario = Usuario(
+                                    nome = usernameState.value,
+                                    telefone = telefoneState.value,
+                                    email = emailState.value,
+                                    senha = senhaState.value,
+                                    isMaior = checkboxState.value
+                                )
+                                ur.salvar(usuario)
+                                mensagemErroState.value="Usuário cadastrado com sucesso!"
+                                controleDeNavegacao.navigate("usuarios")
                             }else{
                                 erroState.value=true
                                 mensagemErroState.value="Campos obrigatórios não preenchidos!"
