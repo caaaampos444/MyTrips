@@ -24,7 +24,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,7 +42,6 @@ import com.example.mytrips.R
 import com.example.mytrips.model.Usuario
 import com.example.mytrips.repository.UsuarioRepository
 import com.example.mytrips.ui.theme.MyTripsTheme
-import kotlin.math.log
 
 @Composable
 fun TelaCadastro(controleDeNavegacao: NavHostController) {
@@ -296,7 +294,7 @@ fun TelaCadastro(controleDeNavegacao: NavHostController) {
                                 )
                                 ur.salvar(usuario)
                                 mensagemErroState.value="Usuário cadastrado com sucesso!"
-                                controleDeNavegacao.navigate("usuarios")
+                                controleDeNavegacao.navigate("login")
                             }else{
                                 erroState.value=true
                                 mensagemErroState.value="Campos obrigatórios não preenchidos!"
