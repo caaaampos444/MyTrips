@@ -1,13 +1,14 @@
 package com.example.mytrips.model
 
-import androidx.compose.ui.graphics.painter.Painter
-import java.time.LocalDate
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "tbl_viagens")
 data class Viagem(
-    var id:Int=0,
+    @PrimaryKey(autoGenerate = true) var id:Int=0,
     var destino:String="",
     var descricao:String="",
-    var dataChegada: LocalDate =LocalDate.now(),
-    var dataPartida:LocalDate=LocalDate.now(),
-    var imagem: Painter?=null
+    @ColumnInfo(name = "data_chegada") var dataChegada: String = "",
+    @ColumnInfo(name = "data_partida") var dataPartida: String = ""
 )
