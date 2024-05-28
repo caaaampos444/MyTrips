@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.mytrips.model.Usuario
+import com.example.mytrips.model.Viagem
 
-@Database(entities = [Usuario::class], version = 1)
+@Database(entities = [Usuario::class, Viagem::class], version = 1)
 abstract class MyTripsDb : RoomDatabase() {
 
     abstract fun myTripsDao(): MyTripsDao
