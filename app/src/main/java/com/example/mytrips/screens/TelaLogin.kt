@@ -40,7 +40,6 @@ import androidx.navigation.NavHostController
 import com.example.mytrips.R
 import com.example.mytrips.repository.UsuarioRepository
 import com.example.mytrips.ui.theme.MyTripsTheme
-import kotlin.reflect.typeOf
 
 @Composable
 fun TelaLogin(controleDeNavegacao: NavHostController) {
@@ -62,6 +61,8 @@ fun TelaLogin(controleDeNavegacao: NavHostController) {
     }
 
     val ur = UsuarioRepository(LocalContext.current)
+
+    val listaUsuarios = ur.listarTodosOsUsuarios()
 
     MyTripsTheme {
         Column (
@@ -167,6 +168,7 @@ fun TelaLogin(controleDeNavegacao: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = mensagemErroState.value,
                     color = Color.Red,
@@ -179,12 +181,19 @@ fun TelaLogin(controleDeNavegacao: NavHostController) {
                 ){
                     Button(
                         onClick = {
-                                  if (emailState.value!=""&&senhaState.value!=""){
-                                      //Log.i("RETORNO DO BANCO",ur.buscarUsuarioLogado(emailState.value, senhaState.value))
-                                  }else{
-                                      erroState.value=true
-                                      mensagemErroState.value="Campos requeridos não foram preenchidos"
-                                  }
+                            if (emailState.value!=""&&senhaState.value!=""){
+                                listaUsuarios.forEach{
+                                    if(it.email==emailState.value&&it.senha==senhaState.value){
+                                        controleDeNavegacao.navigate("home")
+                                    }else{
+                                        erroState.value=true
+                                        mensagemErroState.value="Existem dados inválidos!"
+                                    }
+                                }
+                            }else{
+                                erroState.value=true
+                                mensagemErroState.value="Campos requeridos não foram preenchidos!"
+                            }
                         },
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults
