@@ -6,18 +6,19 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.mytrips.model.Usuario
+import com.example.mytrips.model.Viagem
 
 @Dao
 interface MyTripsDao {
 
     @Insert
-    fun salvar(usuario: Usuario): Long
+    fun salvarUsuario(usuario: Usuario): Long
 
     @Update
-    fun atualizar(usuario: Usuario): Int
+    fun atualizarUsuario(usuario: Usuario): Int
 
     @Delete
-    fun deletar(usuario: Usuario)
+    fun deletarUsuario(usuario: Usuario)
 
     @Query("SELECT * FROM tbl_usuarios ORDER BY nome ASC")
     fun listarTodosOsUsuarios(): List<Usuario>
@@ -27,5 +28,11 @@ interface MyTripsDao {
 
     @Query("SELECT * FROM tbl_usuarios WHERE email = :email AND senha = :senha")
     fun buscarUsuarioLogado(email: String, senha: String): List<Usuario>
+
+    @Query("SELECT * FROM tbl_viagens ORDER BY destino ASC")
+    fun listarTodasAsViagens(): List<Viagem>
+
+    @Insert
+    fun salvarViagem(viagem: Viagem): Long
 
 }
