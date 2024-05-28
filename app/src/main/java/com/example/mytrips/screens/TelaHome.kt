@@ -1,11 +1,11 @@
 package com.example.mytrips.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,9 +17,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,10 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -50,7 +52,7 @@ import com.example.mytrips.ui.theme.MyTripsTheme
 @Composable
 fun TelaHome(controleDeNavegacao: NavHostController) {
 
-    val viagens = ViagemRepository().listarTodasAsViagens()
+    val viagens = ViagemRepository(context = LocalContext.current).listarTodasAsViagens()
 
     val categorias = CategoriaRepository().listarTodasAsCategorias()
 
@@ -59,86 +61,108 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
     }
 
     MyTripsTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color(0xFFF6F6F6))
-        ) {
-            Surface(
-                modifier = Modifier
-                    .height(200.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.background),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-                Column (
-                    verticalArrangement = Arrangement.SpaceBetween,
+        Scaffold(
+            topBar = {
+                Surface(
                     modifier = Modifier
-                        .padding(16.dp)
-                ){
-                    Column (
-                        horizontalAlignment = Alignment.End,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ){
-                        Card(
-                            shape = CircleShape
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.profilefoto),
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .height(60.dp)
-                                    .width(60.dp)
-                            )
-                        }
-                        Text(
-                            text = "Susanna Hoffs",
-                            color = Color.White
-                        )
-                    }
+                        .height(200.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.background),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
                     Column(
-
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .padding(16.dp)
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            horizontalAlignment = Alignment.End,
+                            modifier = Modifier
+                                .fillMaxWidth()
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.locationvector),
-                                contentDescription = "",
-                                contentScale = ContentScale.FillBounds,
-                                modifier = Modifier
-                                    .height(16.dp)
-                                    .width(16.dp)
-                            )
+                            Card(
+                                shape = CircleShape
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.profilefoto),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .height(60.dp)
+                                        .width(60.dp)
+                                )
+                            }
                             Text(
-                                text = "You're in Paris",
+                                text = "Susanna Hoffs",
                                 color = Color.White
                             )
                         }
-                        Text(
-                            text = "MyTrips",
-                            color = Color.White,
-                            fontWeight = FontWeight.Black,
-                            fontSize = 30.sp
-                        )
+                        Column(
+
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.locationvector),
+                                    contentDescription = "",
+                                    contentScale = ContentScale.FillBounds,
+                                    modifier = Modifier
+                                        .height(16.dp)
+                                        .width(16.dp)
+                                )
+                                Text(
+                                    text = "You're in Paris",
+                                    color = Color.White
+                                )
+                            }
+                            Text(
+                                text = "MyTrips",
+                                color = Color.White,
+                                fontWeight = FontWeight.Black,
+                                fontSize = 30.sp
+                            )
+                        }
                     }
                 }
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { /* handle FAB click */ },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .absolutePadding(left = 16.dp, bottom = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.locationvector),
+                        contentDescription = "Add"
+                    )
+                }
             }
+        ) { innerPadding ->
             Column(
                 modifier = Modifier
+                    .padding(innerPadding)
                     .padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
             ) {
                 Text(text = "Categories")
                 Spacer(modifier = Modifier.height(8.dp))
-                LazyRow{
-                    items(categorias){
+                LazyRow {
+                    items(categorias) {
                         Card(
                             elevation = CardDefaults.cardElevation(10.dp),
-                            colors = if (it.habilitado==true) CardDefaults.cardColors(containerColor = Color(0xFFCF06F0)) else CardDefaults.cardColors(containerColor = Color(0xFFEAABF4)),
+                            colors = if (it.habilitado == true)
+                                CardDefaults
+                                    .cardColors(
+                                        containerColor = Color(0xFFCF06F0)
+                                    )
+                            else
+                                CardDefaults
+                                    .cardColors(
+                                        containerColor = Color(0xFFEAABF4)
+                                    ),
                             modifier = Modifier
                                 .height(80.dp)
                                 .width(120.dp)
@@ -151,7 +175,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                     .fillMaxSize()
                             ) {
                                 Image(
-                                    painter = if(it.imagem==null) painterResource(id = R.drawable.noimage) else it.imagem!!,
+                                    painter = if (it.imagem == null) painterResource(id = R.drawable.noimage) else it.imagem!!,
                                     contentDescription = "",
                                     contentScale = ContentScale.Fit,
                                     modifier = Modifier
@@ -172,7 +196,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                     value = pesquisaState.value,
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
                     onValueChange = {
-                        pesquisaState.value=it
+                        pesquisaState.value = it
                     },
                     placeholder = { Text(text = "Search your destiny") },
                     trailingIcon = {
@@ -191,7 +215,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                 Text(text = "Past Trips")
                 Spacer(modifier = Modifier.height(10.dp))
                 LazyColumn {
-                    items(viagens){
+                    items(viagens) {
                         Card(
                             elevation = CardDefaults.cardElevation(6.dp),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -204,7 +228,7 @@ fun TelaHome(controleDeNavegacao: NavHostController) {
                                     .padding(4.dp)
                             ) {
                                 Image(
-                                    painter = if(it.imagem==null) painterResource(id = R.drawable.noimage) else it.imagem!!,
+                                    painter = if (it.imagem == null) painterResource(id = R.drawable.noimage) else it.imagem!!,
                                     contentDescription = "",
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
